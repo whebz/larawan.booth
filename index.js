@@ -16,7 +16,17 @@ var y = 0;
   // fill circle
   context.beginPath();
   context.fillStyle = '#b8964f';
-  context.fillRect(0, 0, 175, 150);
+  context.fillRect(0, 0, 195, 165);
+
+  context.font="20px system-ui";
+  context.textAlign="center"; 
+  context.textBaseline = "middle";
+  context.fillStyle = "#ffffff";
+  var rectHeight = 165;
+  var rectWidth = 195;
+  var rectX = 10;
+  var rectY = 10;
+  context.fillText("Scratch here!",rectWidth/2,rectHeight/2);
 
   //----------------------------------------------------------------------------
 
@@ -25,9 +35,9 @@ var y = 0;
   function clearArc(x, y) {
     context.globalCompositeOperation = 'destination-out';
     context.beginPath();
-    context.arc(x, y, 10, 0, Math.PI * 2, false);
-    context.fill();
-    console.log('x: ' + x + ' - y: ' + y)
+    context.fillRect(x, y, 10, 10);
+    // context.arc(x, y, 10, 0, Math.PI * 2, false);
+    // context.fill();
   }
 
   canvas.addEventListener('mousedown', function(event) {
