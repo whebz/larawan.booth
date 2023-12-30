@@ -16,14 +16,14 @@ var y = 0;
   // fill circle
   context.beginPath();
   context.fillStyle = '#b8964f';
-  context.fillRect(0, 0, 195, 165);
+  context.fillRect(0, 0, 197, 165);
 
   context.font="20px system-ui";
   context.textAlign="center"; 
   context.textBaseline = "middle";
   context.fillStyle = "#ffffff";
   var rectHeight = 165;
-  var rectWidth = 195;
+  var rectWidth = 197;
   var rectX = 10;
   var rectY = 10;
   context.fillText("Scratch here!",rectWidth/2,rectHeight/2);
