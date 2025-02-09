@@ -1,59 +1,760 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-  <title>scratch card with Canvas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=yes">
+  <title>Larawan Booth</title>
+
+  <!-- Font Awesome (for icons) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
   <style>
-    #scratch {
-      cursor: default;
-      height: 165px;
-      position: absolute;
-      width: 197px;
-      top: 477px;
-      left: 90px;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      -webkit-touch-callout: none;
-    }
-
-
-    .container {
-      width: 375px;
-      margin: 0 auto;
-      position: relative;
-      padding: 0;
-    }
-
-    body {
-      background-color: #b8964f;
-      height: 100%;
-      width: 100%;  
+    /* Reset and Global Styles */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased; /* For better font rendering */
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: 1px; /* Base letter spacing */
     }
 
+    /* Hero Section Updates */
+    .hero {
+      background: linear-gradient(180deg, #444444 0%, #a8a8a8 100%); /* Mocha gradient */
+      text-align: center;
+      padding: 40px 20px 100px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    /* Profile image updates */
+    .profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 15px auto;
+      background: #fff;
+      border: 3px solid #fff;
+      overflow: hidden;
+    }
+    
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Title styles */
+    .hero h1 {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: 2px; /* Wider spacing for title */
+      margin-bottom: 5px;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 15px;
+      font-weight: normal;
+      opacity: 0.9;
+      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+    }
+
+    /* Contact icons style */
+    .contact-icons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 25px 0;
+    }
+    
+    .icon-circle {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .icon-circle:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .icon-circle i {
+      color: #fff;
+    }
+
+    /* Add Contact button */
+    .add-contact-btn {
+      background-color: #333333!important;
+      color: #ffffff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      gap: 8px;
+      transition: all 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+      letter-spacing: 1.5px;
+    }
+
+    .add-contact-btn:hover {
+      background-color: #5d5d5d!important; /* Gray color on hover */
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .add-contact-btn i {
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    /* Main content adjustments */
+    .main-content {
+      background: #fff;
+      margin-top: -30px;  /* Adjusted to overlap with curve */
+      padding: 30px 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 2;
+      border-radius: 20px 20px 0 0;
+    }
+
+    /* Info items style */
+    .info-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .info-item i {
+      margin-right: 15px;
+      font-size: 20px;
+      color: #666;
+      width: 24px;
+    }
+
+    /* Social section updates */
+    .social-section {
+      margin-top: 30px;
+    }
+
+    .social-section h4 {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .social-list {
+      list-style: none;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .social-link > div {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .social-link i {
+      font-size: 24px;
+    }
+
+    .social-arrow {
+      color: #ccc;
+    }
+
+    /* Description text */
+    .description {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #666;
+      letter-spacing: 1px;
+    }
+
+    .description p {
+      margin-bottom: 15px;
+    }
+
+    .description strong {
+      color: #333;
+      display: block;
+      margin: 20px 0 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+    }
+
+    /* Updated button style */
+    .add-contact-btn {
+      background-color: #4267b2;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      gap: 8px;
+    }
+
+    /* Updated info card style */
+    .info-card {
+      background: #f8f8f8;
+      border: none;
+      padding: 20px;
+      margin: 20px 0 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      /*
+      transform: translateY(0);
+      transition: all 0.3s ease;
+      */
+    }
+/*
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+*/
+    .info-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .info-item i {
+      margin-right: 15px;
+      font-size: 20px;
+      color: #666;
+      width: 24px;
+      text-align: center;
+    }
+
+    .info-item span {
+      font-size: 15px;
+      font-weight: 400;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
+    /* Remove border from last item */
+    .info-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-item:first-child {
+      padding-top: 0;
+    }
+
+    /* Updated social section */
+    .social-section h4 {
+      font-size: 14px;
+      margin-bottom: 15px;
+      color: #666;
+    }
+
+    .social-link {
+      padding: 15px 0;
+      background: transparent;
+      border-bottom: 1px solid #eee;
+      border-radius: 0;
+    }
+
+    .social-link i {
+      font-size: 24px;
+      width: 30px;
+    }
+
+    /* 1) HEADER / HERO SECTION */
+    .hero {
+      /* Approximate gradient from your screenshot (blue-green) */
+      position: relative;
+      text-align: center;
+      color: #fff;
+      padding: 60px 20px 120px 20px; /* extra bottom padding to hold the curve */
+    }
+    /* Curvy white shape that transitions the hero to the main content */
+    /*
+    .hero::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: #fff;
+      z-index: 1;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z'%3E%3C/path%3E%3C/svg%3E");
+      -webkit-mask-size: 100% 100%;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z'%3E%3C/path%3E%3C/svg%3E");
+      mask-size: 100% 100%;
+    }
+    */
+    /* Keep hero content above the curve */
+    .hero-content {
+      position: relative;
+      z-index: 2; 
+    }
+
+    /* Title / Subtitle */
+    .hero h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .hero p {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    /* Circular contact icons */
+    .contact-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .icon-circle {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .icon-circle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* 2) MAIN CONTENT */
+    .main-content {
+      background: #fff;
+      margin-top: -80px; /* Pull up so it meets the wave */
+      padding: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 8px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    }
+
+    .description {
+      margin-bottom: 20px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .description h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .description p {
+      margin-bottom: 10px;
+    }
+
+    /* "Find me on" section */
+    .social-section {
+      margin-bottom: 20px;
+    }
+    .social-section h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .social-list {
+      list-style: none;
+      padding: 0;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f8f8f8;
+      margin: 6px 0;
+      padding: 12px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+    }
+    .social-link i {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #555;
+    }
+    .social-arrow {
+      color: #999;
+      font-size: 14px;
+      margin-left: auto;
+    }
+
+    /* RESPONSIVENESS */
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 24px;
+      }
+      .hero p {
+        font-size: 14px;
+      }
+      .add-contact-btn {
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+      .description,
+      .info-item span,
+      .social-link {
+        font-size: 14px;
+      }
+      body {
+        letter-spacing: 0.8px;
+      }
+      
+      .hero h1 {
+        letter-spacing: 1.5px;
+      }
+    }
+
+    /* Update preloader styles for swipe-up animation */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .preloader.swipe-up {
+      transform: translateY(-100%);
+    }
+
+    .preloader img {
+      width: 150px;
+      height: auto;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    /* Update main wrapper styles */
+    .main-wrapper {
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+      transition-delay: 0.3s;
+    }
+
+    .main-wrapper.show {
+      opacity: 1;
+    }
+
+    /* Add brand colors for social icons */
+    .social-link i.fa-whatsapp {
+      color: #25D366;
+    }
+
+    .social-link i.fa-facebook {
+      color: #4267B2;
+    }
+
+    .social-link i.fa-instagram {
+      background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .social-link i.fa-globe {
+      color: #E86C60;
+    }
+
+    /* Update social link hover effect */
+    .social-link {
+      transition: background-color 0.3s ease;
+    }
+
+    .social-link:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Update social link layout */
+    .social-link > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .social-link i {
+      font-size: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      margin-right: 0;
+    }
+
+    /* Add footer styles */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      font-size: 14px;
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      letter-spacing: 1.5px;
+    }
+
+    .footer span {
+      font-weight: 500;
+    }
   </style>
 </head>
-
 <body>
-
-  <div class="container">
-    <img src="./promo-long.gif" alt="" style="width: 100%; margin: 0 auto;" />
-    <canvas id="scratch" width="197" height="165"></canvas>
+  <!-- Add preloader -->
+  <div class="preloader">
+    <img src="loading.jpeg" alt="Loading...">
   </div>
-  <script src="index.js"></script>
 
-  <!-- <a href="https://www.freecounterstat.com" 
-     title="free web page counter"
-     style="position: fixed; top: 0;">
-      <img src="https://counter7.optistats.ovh/private/freecounterstat.php?c=wsww2xsk28kqeeybq124zhmrpl1kwc68" 
-           border="0" 
-           title="free web page counter" 
-           alt="free web page counter"
-           style="height: 10px;" />
-  </a> -->
+  <!-- Wrap existing content in main-wrapper -->
+  <div class="main-wrapper">
+    <!-- HERO / HEADER -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="profile-image">
+          <img src="profile.jpeg" alt="Larawan Booth Logo">
+        </div>
+        <h1>Larawan Booth</h1>
+        <p>Servizio di Photobooth</p>
+
+        <div class="contact-icons">
+          <a href="tel:+393293437756" class="icon-circle">
+            <i class="fas fa-phone"></i>
+          </a>
+          <a href="mailto:larawan.booth@gmail.com" class="icon-circle">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Bologna,Emilia-Romagna,Italia" target="_blank" class="icon-circle">
+            <i class="fas fa-map-marker-alt"></i>
+          </a>
+        </div>
+
+        <button class="add-contact-btn">
+          <i class="fas fa-user-plus"></i>
+          Add Contact
+        </button>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT (white area) -->
+    <section class="main-content">
+      <div class="description">
+        <p>
+          "Clicca, sorridi, ripeti". Larawan Booth offre un servizio di photobooth
+          per qualsiasi evento. Entra nella cornice del divertimento e lascia che i
+          bei momenti facciano clic!
+        </p>
+        <p><strong>Servizi:</strong></p>
+        <p>
+          Con un minimo di 1 ora potrai usufruire del nostro servizio photobooth,
+          scatti e stampe illimitati, copia digitale delle tue foto tramite scanner
+          QRcode, un template a tema e un guestbook personalizzato inciso su legno!
+        </p>
+      </div>
+
+      <!-- Info Card -->
+      <div class="info-card">
+        <div class="info-item">
+          <i class="fas fa-phone"></i>
+          <span>3293437756</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-envelope"></i>
+          <span>larawan.booth@gmail.com</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Bologna, Emilia-Romagna, Italia</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-camera-retro"></i>
+          <span>Servizio di Photobooth</span>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="social-section">
+        <h4>Find me on</h4>
+        <ul class="social-list">
+          <li>
+            <a class="social-link" href="https://wa.me/393293437756" target="_blank">
+              <div>
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </div>
+              <span class="social-arrow"><i class="fas fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="social-link" href="https://www.facebook.com/larawanbooth" target="_blank">
+              <div>
+                <i class="fab fa-facebook"></i> Facebook
+              </div>
+              <span class="social-arrow"><i class="fas fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="social-link" href="https://www.instagram.com/larawanbooth" target="_blank">
+              <div>
+                <i class="fab fa-instagram"></i> Instagram
+              </div>
+              <span class="social-arrow"><i class="fas fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="social-link" href="https://www.matrimonio.com/photo-booth/larawan-booth--e367060" target="_blank">
+              <div>
+                <i class="fas fa-globe"></i> Matrimonio.com
+              </div>
+              <span class="social-arrow"><i class="fas fa-chevron-right"></i></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; <span id="currentYear"></span> <span>Larawan Booth</span></p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const preloader = document.querySelector('.preloader');
+      const mainContent = document.querySelector('.main-wrapper');
+      
+      // Show preloader for 2 seconds then swipe up
+      setTimeout(() => {
+        preloader.classList.add('swipe-up');
+        mainContent.classList.add('show');
+        
+        // Remove preloader from DOM after animation
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 800); // Match the transition duration
+      }, 2000);
+
+      // Set current year in footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+    });
+
+    document.querySelector('.add-contact-btn').addEventListener('click', function() {
+      // Create vCard content
+      const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Larawan Booth
+ORG:Larawan Booth
+TITLE:Servizio di Photobooth
+TEL;TYPE=CELL:+393293437756
+EMAIL:larawan.booth@gmail.com
+ADR;TYPE=WORK:;;Bologna;Emilia-Romagna;;Italia
+URL;TYPE=WhatsApp:https://wa.me/393293437756
+URL;TYPE=Facebook:https://www.facebook.com/larawanbooth
+URL;TYPE=Instagram:https://www.instagram.com/larawanbooth
+URL;TYPE=Website:https://www.matrimonio.com/photo-booth/larawan-booth--e367060
+END:VCARD`;
+
+      // Create a Blob containing the vCard data
+      const blob = new Blob([vCard], { type: 'text/vcard' });
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link and trigger download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'larawan-booth.vcf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    });
+  </script>
+
 </body>
-
 </html>
